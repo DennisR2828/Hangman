@@ -1,50 +1,3 @@
-let canvas = document.getElementById("myCanvas");
-let context = canvas.getContext("2d");
-
-drawLeftArm(canvas);
-drawTorso(canvas);
-drawRightArm(canvas);
-drawLeftLeg(canvas);
-drawRightLeg(canvas);
-drawHead(canvas);
-drawChains(canvas);
-var alpha = [abcdefghijklmnopqrstuvwxyz];
-
-var words = [
-    "Cats",
-    "Dogs",
-    "Fruit",
-]
-
-let answer = ''
-let maxWrong = 5;
-let mistakes = 0;
-let guessed = [];
-
-   /**  function randomWord() {
-        answer = words[Math.floor(Math.random() * words.length)];
-    } **/
-
-    
-        function printBtn() {
-            for (var i = 0; i < words.length; i++) {
-               var btn = document.createElement("button");
-               var t = document.createTextNode(words[i]);
-               btn.appendChild(t);
-               document.body.appendChild(btn);
-                }
-            }
-            
-       
-    
-
-            window.onload = printBtn();
-
-
-
-
-
-
 function drawLeftArm(canvas) {
     context.beginPath();
     context.moveTo(250, 250);
@@ -124,9 +77,3 @@ function drawChains(canvas) {
     context.strokeStyle = "#FF0000";
     context.stroke();
 }
-
-
-    
-
-
-
