@@ -131,7 +131,7 @@ const initializer = () => {
         //for drawing man
         drawMan(count);
         //Count==6 because head,body,left arm, right arm,left leg,right leg
-        if (count == 6) {
+        if (count == 5) {
           resultText.innerHTML = `<h2 class='lose-msg'>You Lose!!</h2><p>The word was <span>${chosenWord}</span></p>`;
           blocker();
         }
@@ -203,40 +203,188 @@ const canvasCreator = () => {
     context.stroke()
   };
 
+  const deadEyes = () => {
+    //left eye
+    context.beginPath();
+    context.moveTo(230,120);
+    context.lineTo(200,100);
+    context.closePath();
+
+    context.moveTo(230,100);
+    context.lineTo(200,120);
+    context.closePath();
+    context.stroke()
+    //right eye
+    context.moveTo(300,120);
+    context.lineTo(270,100);
+    
+    context.moveTo(300,100);
+    context.lineTo(270,120);
+    context.closePath();
+    context.stroke()
+  };
+
+
+  // NEW LIMBS 
+  const rightLegNew = () => {
+    context.beginPath();
+    context.moveTo(280,420);
+    context.lineTo(400,500);
+    context.closePath();
+    context.stroke()
+  };
+
+  const leftLegNew = () => {
+    context.beginPath();
+    context.moveTo(220,420);
+    context.lineTo(100,500);
+    context.closePath();
+    context.stroke()
+  };
+
+  const rightArmNew = () => {
+    context.beginPath();
+    context.moveTo(280,220);
+    context.lineTo(400,100);
+    context.closePath();
+    context.stroke()
+  };
+
+  const leftArmNew = () => {
+    context.beginPath();
+    context.moveTo(220, 220);
+    context.lineTo(100,100);
+    context.closePath();
+    context.stroke()
+  };
+
+  const headNew = () => {
+    context.beginPath();
+    context.arc(250,85,75,0,2*Math.PI);
+    context.stroke();
+  };
+
+  // END OF NEW LIMBS
+
+  // START OF PULL LIMB FUNCTIONS
+  
+  const rightLegPull = () => {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    
+    head();
+    body();
+    leftArm();
+    rightArm();
+    leftLeg();
+    rightLegNew();
+    drawChains();
+    
+    
+    
+    
+  };
+
+  const leftLegPull = () => {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    
+    head();
+    body();
+    leftArm();
+    rightArm();
+    leftLegNew();
+    rightLegNew();
+    drawChains();
+    
+    
+    
+    
+    
+  };
+
+  const rightArmPull = () => {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    
+    head();
+    body();
+    leftArm();
+    rightArmNew();
+    leftLegNew();
+    rightLegNew();
+    drawChains();
+    
+    
+    
+    
+  };
+
+  const leftArmPull = () => {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    
+    head();
+    body();
+    leftArmNew();
+    rightArmNew();
+    leftLegNew();
+    rightLegNew();
+    drawChains();
+    
+    
+    
+    
+  };
+
+  const headPull = () => {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    
+    headNew();
+    body();
+    leftArmNew();
+    rightArmNew();
+    leftLegNew();
+    rightLegNew();
+    deadEyes();
+    drawChains();
+    
+    
+    
+    
+  };
+
+  // END OF PULL LIMB FUNCTIONS
 
   const drawChains = () => {
     // Bottom Left Chain
     context.beginPath();
-    context.moveTo(0,600);
-    context.lineTo(100,500);
+    context.moveTo(0, 600);
+    context.lineTo(100, 500);
     context.closePath();
     context.strokeStyle = "#FF0000";
     context.stroke();
 
     // Bottom Right Chain
     context.beginPath();
-    context.moveTo(500,600);
-    context.lineTo(400,500);
+    context.moveTo(500, 600);
+    context.lineTo(400, 500);
     context.closePath();
     context.strokeStyle = "#FF0000";
     context.stroke();
-    
+
     // Top Right Chain
     context.beginPath();
-    context.moveTo(500,0);
-    context.lineTo(400,100);
+    context.moveTo(500, 0);
+    context.lineTo(400, 100);
     context.closePath();
     context.strokeStyle = "#FF0000";
     context.stroke();
 
     // Top Left Chain
     context.beginPath();
-    context.moveTo(0,0);
-    context.lineTo(100,100);
+    context.moveTo(0, 0);
+    context.lineTo(100, 100);
     context.closePath();
     context.strokeStyle = "#FF0000";
     context.stroke();
-}
+  }
 
   
 
@@ -253,34 +401,35 @@ const canvasCreator = () => {
     drawChains();
   };
 
-  return { initialDrawing, head, body, leftArm, rightArm, leftLeg, rightLeg};
+  return { initialDrawing, rightLegPull, leftLegPull, rightArmPull, leftArmPull,headPull, leftArmNew, rightArmNew, rightLegNew, leftLegNew, headNew};
 };
 
 
 //draw the man
 const drawMan = (count) => {
-  let { head, body, leftArm, rightArm, leftLeg, rightLeg} = canvasCreator();
+  let { body, leftArm, rightArm, leftLeg, rightLeg, rightLegPull, leftLegPull,rightArmPull,leftArmPull,headPull, rightLegNew, leftArmNew, rightArmNew, leftLegNew} = canvasCreator();
   switch (count) {
     case 1:
-      head();
+      rightLegPull();
+     
       break;
     case 2:
-      body();
+      leftLegPull();
+     
       break;
     case 3:
-      leftArm();
+      rightArmPull();
+      
       break;
     case 4:
-      rightArm();
+      leftArmPull();
       break;
     case 5:
-      leftLeg();
+      headPull();
       break;
-    case 6:
-      rightLeg();
+      default:
       break;
-    default:
-      break;
+    
   }
 };
 
