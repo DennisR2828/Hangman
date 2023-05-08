@@ -1,3 +1,6 @@
+// References to other docs and objs
+const jokeButton = document.querySelector('.joke-container button');
+const jokeText = document.querySelector('.joke-container p');
 const letterContainer = document.getElementById("letter-container");
 const optionsContainer = document.getElementById("options-container");
 const userInputSection = document.getElementById("user-input-section");
@@ -6,31 +9,49 @@ const newGameButton = document.getElementById("new-game-button");
 const canvas = document.getElementById("canvas");
 const resultText = document.getElementById("result-text");
 
+// This line of code we automatically refresh the joke whenever the web page is opened or refreshed
+document.addEventListener('DOMContentLoaded', getJoke)
+
+jokeButton.addEventListener('click', getJoke);
+
+// Fetch api that will pull a joke from this 
+ async function getJoke () {
+  const jokeData = await fetch('https://icanhazdadjoke.com/',{
+    headers: {
+      'Accept': 'application/json'
+    }
+  });
+  const jokeObj = await jokeData.json();
+  jokeText.innerHTML = jokeObj.joke;
+ 
+ 
+}
+
+
 //Options values for buttons
 let options = {
-  fruits: [
-    "Apple",
-    "Blueberry",
-    "Mandarin",
-    "Pineapple",
-    "Pomegranate",
-    "Watermelon",
+  weapons: [
+    "Knife",
+    "Bat",
+    "Sword",
+    "Hammer",
+    "Grenade",
+    "Gun",
   ],
   
-  countries: [
-    "India",
-    "Hungary",
-    "Kyrgyzstan",
-    "Switzerland",
-    "Zimbabwe",
-    "Dominica",
+  colors: [
+    "Red",
+    "Blue",
+    "Green",
+    "Yellow",
+    "Purple",
+    "Black",
   ],
 };
 
-//count
+//count that will help determine what body part is getting pulled
 let winCount = 0;
 let count = 0;
-
 let chosenWord = "";
 
 //Display option buttons
@@ -43,26 +64,27 @@ const displayOptions = () => {
   optionsContainer.appendChild(buttonCon);
 };
 
-//Block all the Buttons
+//Block all the Buttons after selection was made
 const blocker = () => {
   let optionsButtons = document.querySelectorAll(".options");
   let letterButtons = document.querySelectorAll(".letters");
-  //disable all options
+  //This disables options
   optionsButtons.forEach((button) => {
     button.disabled = true;
   });
 
-  //disable all letters
+  //This disables all letters
   letterButtons.forEach((button) => {
     button.disabled.true;
   });
   newGameContainer.classList.remove("hide");
 };
 
+
 //Word Generator
 const generateWord = (optionValue) => {
   let optionsButtons = document.querySelectorAll(".options");
-  //If optionValur matches the button innerText then highlight the button
+  //If optionValue matches the button innerText then it willhighlight the button
   optionsButtons.forEach((button) => {
     if (button.innerText.toLowerCase() === optionValue) {
       button.classList.add("active");
@@ -70,23 +92,23 @@ const generateWord = (optionValue) => {
     button.disabled = true;
   });
 
-  //initially hide letters, clear previous word
+  //Initially hide letters, and will clear previous word
   letterContainer.classList.remove("hide");
   userInputSection.innerText = "";
 
   let optionArray = options[optionValue];
-  //choose random word
+  //Choose random word from the array of the selected option
   chosenWord = optionArray[Math.floor(Math.random() * optionArray.length)];
   chosenWord = chosenWord.toUpperCase();
 
-  //replace every letter with span containing dash
+  //Replaces every letter with span containing dash
   let displayItem = chosenWord.replace(/./g, '<span class="dashes">_</span>');
 
   //Display each element as span
   userInputSection.innerHTML = displayItem;
 };
 
-//Initial Function (Called when page loads/user presses new game)
+//Initialize Function (Called when page loads/user presses new game)
 const initializer = () => {
   winCount = 0;
   count = 0;
@@ -102,7 +124,7 @@ const initializer = () => {
   for (let i = 65; i < 91; i++) {
     let button = document.createElement("button");
     button.classList.add("letters");
-    //Number to ASCII[A-Z]
+    //Number to ASCII character code
     button.innerText = String.fromCharCode(i);
     //character button click
     button.addEventListener("click", () => {
@@ -117,20 +139,19 @@ const initializer = () => {
             dashes[index].innerText = char;
             //increment counter
             winCount += 1;
-            //if winCount equals word lenfth
+            //if winCount equals word length
             if (winCount == charArray.length) {
               resultText.innerHTML = `<h2 class='win-msg'>You Win!!</h2><p>The word was <span>${chosenWord}</span></p>`;
-              //block all buttons
+         
               blocker();
             }
           }
         });
       } else {
-        //lose count
         count += 1;
         //for drawing man
         drawMan(count);
-        //Count==6 because head,body,left arm, right arm,left leg,right leg
+        //Count==5 because head, arms, and legs
         if (count == 5) {
           resultText.innerHTML = `<h2 class='lose-msg'>You Lose!!</h2><p>The word was <span>${chosenWord}</span></p>`;
           blocker();
@@ -225,7 +246,7 @@ const canvasCreator = () => {
   };
 
 
-  // NEW LIMBS 
+  // NEW LIMBS AFTER TRANSALTION
   const rightLegNew = () => {
     context.beginPath();
     context.moveTo(280,420);
@@ -278,10 +299,6 @@ const canvasCreator = () => {
     leftLeg();
     rightLegNew();
     drawChains();
-    
-    
-    
-    
   };
 
   const leftLegPull = () => {
@@ -293,12 +310,7 @@ const canvasCreator = () => {
     rightArm();
     leftLegNew();
     rightLegNew();
-    drawChains();
-    
-    
-    
-    
-    
+    drawChains(); 
   };
 
   const rightArmPull = () => {
@@ -311,10 +323,6 @@ const canvasCreator = () => {
     leftLegNew();
     rightLegNew();
     drawChains();
-    
-    
-    
-    
   };
 
   const leftArmPull = () => {
@@ -327,10 +335,6 @@ const canvasCreator = () => {
     leftLegNew();
     rightLegNew();
     drawChains();
-    
-    
-    
-    
   };
 
   const headPull = () => {
@@ -344,10 +348,6 @@ const canvasCreator = () => {
     rightLegNew();
     deadEyes();
     drawChains();
-    
-    
-    
-    
   };
 
   // END OF PULL LIMB FUNCTIONS
@@ -407,7 +407,7 @@ const canvasCreator = () => {
 
 //draw the man
 const drawMan = (count) => {
-  let { body, leftArm, rightArm, leftLeg, rightLeg, rightLegPull, leftLegPull,rightArmPull,leftArmPull,headPull, rightLegNew, leftArmNew, rightArmNew, leftLegNew} = canvasCreator();
+  let {rightLegPull, leftLegPull,rightArmPull,leftArmPull,headPull} = canvasCreator();
   switch (count) {
     case 1:
       rightLegPull();
@@ -432,6 +432,7 @@ const drawMan = (count) => {
     
   }
 };
+
 
 //New Game
 newGameButton.addEventListener("click", initializer);

@@ -22,8 +22,7 @@
     top: 50%;
     left: 50%;
     padding: 3em;
-    border-radius: 0.6em;
-    box-shadow: 0 1.2em 2.4em rgba(111, 85, 0, 0.25);
+   
   }
   #options-container {
     text-align: center;
@@ -49,7 +48,7 @@
     background-color: #efefef;
   }
   #options-container button.active {
-    background-color: #8c52ff;
+    background-color: red;
     border: 3px solid #000000;
     color: #fff;
   }
@@ -113,7 +112,7 @@
   #new-game-button {
     font-size: 1.25em;
     padding: 0.5em 1em;
-    background-color: #8c52ff;
+    background-color: red;
     border: 3px solid #000000;
     color: #fff;
     border-radius: 0.2em;
@@ -124,4 +123,12 @@
   }
   .lose-msg {
     color: #fe5152;
+  }
+
+  .joke {
+    color: white;
+  }
+
+  .joke-container p {
+    color: white;
   }
